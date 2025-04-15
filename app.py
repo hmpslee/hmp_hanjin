@@ -31,6 +31,9 @@ if uploaded_file:
 
             result_df['보낸분'] = result_df['보낸분'].apply(convert_sender)
 
+            # ✅ 열 이름 바꾸기
+            result_df.columns = ['쇼핑몰코드', '주문번호', '묶음주문번호', '배송방법코드', '송장번호']
+
             # 결과 출력
             st.success("✅ 변환이 완료되었습니다! 아래에서 결과를 확인하고 다운로드하세요.")
             st.dataframe(result_df.head(10))
