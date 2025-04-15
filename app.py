@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 
 # 제목
-st.title("📦 택배사 운송장 변환기 - HANJIN")
+st.title("📦 택배사 운송장 변환기 - HANJIN 버전")
 st.markdown("업로드하신 엑셀에서 필요한 열만 추출하고, 'HANJIN' 텍스트를 자동 삽입해드립니다.")
 
 # 파일 업로드
@@ -16,8 +16,8 @@ if uploaded_file:
         # 필요한 컬럼이 있는지 확인
         required_columns = {'보낸분', '메모1', '메모2', '운송장번호'}
         if required_columns.issubset(df.columns):
-            result_df = df[['쇼핑몰코드', '주문번호', '묶음주문번호', '송장번호']].copy()
-            result_df.insert(3, '배송방법코드', 'HANJIN')  # '고정텍스트' 열 삽입
+            result_df = df[['보낸분', '메모1', '메모2', '운송장번호']].copy()
+            result_df.insert(3, '고정텍스트', 'HANJIN')  # '고정텍스트' 열 삽입
 
             # 보낸분 텍스트 → 쇼핑몰 코드로 변환
             def convert_sender(name):
