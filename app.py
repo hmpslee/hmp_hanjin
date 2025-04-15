@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 
 # 제목
-st.title("📦 택배사 운송장 변환기 - HANJIN 버전")
+st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown("업로드하신 엑셀에서 필요한 열만 추출하고, 'HANJIN' 텍스트를 자동 삽입해드립니다.")
 
 # 파일 업로드
