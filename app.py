@@ -46,17 +46,25 @@ if uploaded_file:
             result_df = result_df[['쇼핑몰코드', '메모1', '메모2', '배송방법코드', '운송장번호']]
             result_df.columns = ['쇼핑몰코드', '주문번호', '묶음주문번호', '배송방법코드', '송장번호']
 
-            # ✅ 5. 빈 행 완전 제거 (공백 문자열 포함)
+            # ✅ 5. 빈 행 완전 제거
             def is_blank_row(row):
                 return all((str(cell).strip() == '' or pd.isna(cell)) for cell in row)
 
             result_df = result_df[~result_df.apply(is_blank_row, axis=1)]
 
+            # ✅ 6. 동적 height 계산 (한 행당 약 40px 기준, 최대 600 제한)
+            table_height = min(600, 40 * len(result_df) + 60)
+
             # 결과 표시
             st.success("✅ 변환이 완료되었습니다! 아래에서 결과를 확인하고 다운로드하세요.")
-            st.data_editor(result_df.reset_index(drop=True), height=800, hide_index=True, disabled=True)
+            st.data_editor(
+                result_df.reset_index(drop=True),
+                height=table_height,
+                hide_index=True,
+                disabled=True
+            )
 
-            # ✅ 6. 복사용 텍스트 버튼
+            # ✅ 7. 복사 버튼
             def dataframe_to_clipboard_text(df):
                 return df.to_csv(index=False, header=False, sep="\t")
 
