@@ -36,7 +36,7 @@ if uploaded_file:
 
             # 결과 출력 (인덱스 제거 + 높이 조절)
             st.success("✅ 변환이 완료되었습니다! 아래에서 결과를 확인하고 다운로드하세요.")
-            st.dataframe(result_df.reset_index(drop=True), height=800)
+            st.data_editor(result_df.reset_index(drop=True), height=800, hide_index=True, disabled=True)
 
             # 엑셀로 다운로드
             def to_excel(dataframe):
