@@ -18,7 +18,7 @@ if uploaded_file:
         if required_columns.issubset(df.columns):
             result_df = df[['보낸분', '메모1', '메모2', '운송장번호']].copy()
 
-            # 보낸분 → 쇼핑몰코드로 변환
+            # 1. 보낸분 → 쇼핑몰코드 변환
             def convert_sender(name):
                 name = str(name)
                 if '복싱천' in name:
@@ -30,7 +30,7 @@ if uploaded_file:
 
             result_df['쇼핑몰코드'] = result_df['보낸분'].apply(convert_sender)
 
-            # 쇼핑몰코드 → 배송방법코드 설정
+            # 2. 쇼핑몰코드 → 배송방법코드 변환
             def convert_shipping_method(shop_code):
                 if shop_code == '00005':
                     return '0018'
@@ -39,11 +39,14 @@ if uploaded_file:
 
             result_df['배송방법코드'] = result_df['쇼핑몰코드'].apply(convert_shipping_method)
 
-            # 컬럼 순서 재정렬 및 열 이름 변경
+            # 3. '보낸분' 열 제거 (선택사항)
+            result_df = result_df.drop(columns=['보낸분'])
+
+            # 4. 컬럼 순서 재정렬 및 열 이름 변경
             result_df = result_df[['쇼핑몰코드', '메모1', '메모2', '배송방법코드', '운송장번호']]
             result_df.columns = ['쇼핑몰코드', '주문번호', '묶음주문번호', '배송방법코드', '송장번호']
 
-            # 결과 표시 (인덱스 없이)
+            # 결과 표시 (인덱스 없이 깔끔하게)
             st.success("✅ 변환이 완료되었습니다! 아래에서 결과를 확인하고 다운로드하세요.")
             st.data_editor(result_df.reset_index(drop=True), height=800, hide_index=True, disabled=True)
 
