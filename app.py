@@ -13,12 +13,12 @@ if uploaded_file:
     try:
         df = pd.read_excel(uploaded_file)
 
-        # 필요한 컬럼이 있는지 확인
+        # 필요한 컬럼 확인
         required_columns = {'보낸분', '메모1', '메모2', '운송장번호'}
         if required_columns.issubset(df.columns):
             result_df = df[['보낸분', '메모1', '메모2', '운송장번호']].copy()
 
-            # 1. 보낸분 → 쇼핑몰코드 변환
+            # 1. 보낸분 → 쇼핑몰코드
             def convert_sender(name):
                 name = str(name)
                 if '복싱천' in name:
@@ -30,7 +30,7 @@ if uploaded_file:
 
             result_df['쇼핑몰코드'] = result_df['보낸분'].apply(convert_sender)
 
-            # 2. 쇼핑몰코드 → 배송방법코드 변환
+            # 2. 쇼핑몰코드 → 배송방법코드
             def convert_shipping_method(shop_code):
                 if shop_code == '00005':
                     return '0018'
@@ -39,18 +39,29 @@ if uploaded_file:
 
             result_df['배송방법코드'] = result_df['쇼핑몰코드'].apply(convert_shipping_method)
 
-            # 3. '보낸분' 열 제거 (선택사항)
+            # 3. 보낸분 열 제거
             result_df = result_df.drop(columns=['보낸분'])
 
-            # 4. 컬럼 순서 재정렬 및 열 이름 변경
+            # 4. 컬럼 순서 및 이름 변경
             result_df = result_df[['쇼핑몰코드', '메모1', '메모2', '배송방법코드', '운송장번호']]
             result_df.columns = ['쇼핑몰코드', '주문번호', '묶음주문번호', '배송방법코드', '송장번호']
 
-            # 결과 표시 (인덱스 없이 깔끔하게)
+            # ✅ 5. 빈 행 제거
+            result_df = result_df.dropna(how='all')
+
+            # 결과 표시
             st.success("✅ 변환이 완료되었습니다! 아래에서 결과를 확인하고 다운로드하세요.")
             st.data_editor(result_df.reset_index(drop=True), height=800, hide_index=True, disabled=True)
 
-            # 엑셀 다운로드 함수
+            # ✅ 6. 복사용 텍스트 생성 버튼
+            def dataframe_to_clipboard_text(df):
+                return df.to_csv(index=False, header=False, sep="\t")
+
+            if st.button("📋 결과 복사하기 (제목 제외)"):
+                clipboard_text = dataframe_to_clipboard_text(result_df)
+                st.text_area("복사해서 붙여넣기 하세요:", clipboard_text, height=300)
+
+            # 엑셀 다운로드
             def to_excel(dataframe):
                 output = BytesIO()
                 with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
