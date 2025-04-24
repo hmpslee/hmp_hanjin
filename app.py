@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
+from streamlit_copy_to_clipboard import st_copy_to_clipboard  # ✅ 복사 기능 추가
 
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
@@ -64,30 +65,16 @@ if uploaded_file:
                 disabled=True
             )
 
-            # 7. 클립보드 복사 버튼 (텍스트 박스 없이!)
-            def dataframe_to_clipboard_text(df):
-                return df.to_csv(index=False, header=False, sep="\t")
+            # ✅ 7. 클립보드 복사 버튼 (텍스트 박스 없이!)
+            clipboard_text = result_df.to_csv(index=False, header=False, sep="\t")
+            st_copy_to_clipboard(
+                clipboard_text,
+                "📋 결과 복사하기 (제목 제외)",
+                icon="📋",
+                success="✅ 복사가 완료되었습니다!"
+            )
 
-            clipboard_text = dataframe_to_clipboard_text(result_df)
-            # JS 스크립트로 복사 기능 구현
-            copy_script = f"""
-            <script>
-            function copyToClipboard(text) {{
-                navigator.clipboard.writeText(text).then(function() {{
-                    console.log('복사 완료');
-                }}, function(err) {{
-                    console.error('복사 실패', err);
-                }});
-            }}
-            copyToClipboard(`{clipboard_text}`);
-            </script>
-            """
-
-            if st.button("📋 결과 복사하기 (제목 제외)"):
-                st.components.v1.html(copy_script, height=0)
-                st.toast("✅ 복사가 완료되었습니다!")
-
-            # 엑셀 다운로드
+            # 8. 엑셀 다운로드
             def to_excel(dataframe):
                 output = BytesIO()
                 with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
