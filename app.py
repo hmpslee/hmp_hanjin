@@ -13,7 +13,7 @@ st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown("Creator by hmp_slee")
 
 # 업로드
-uploaded_file = st.file_uploader("엑셀 파일을 업로드 해주세요 (.xlsx)", type=["xlsx"])
+uploaded_file = st.file_uploader("↓ 엑셀 파일을 업로드 또는 드래그 (.xlsx)", type=["xlsx"])
 
 if uploaded_file:
     try:
