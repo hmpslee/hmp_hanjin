@@ -11,7 +11,7 @@ import streamlit.components.v1 as components
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown(
-    "<p style='text-align: center; font-size: 0.9rem;'>Creator by hmp_slee</p>",
+    "<p style='text-align: center; font-size: 0.9rem; border: 1px solid; padding:7px 9px 0; border-radius: 8px;'>Creator by hmp_slee</p>",
     unsafe_allow_html=True
 )
 
