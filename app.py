@@ -12,8 +12,14 @@ import streamlit.components.v1 as components
 st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown("Creator by hmp_slee")
 
-# 업로드
-uploaded_file = st.file_uploader("↓ 엑셀 파일을 업로드 또는 드래그 (.xlsx)", type=["xlsx"])
+# 안내문구
+st.markdown(
+    "<p style='text-align: center; font-size: 0.9rem;'>⬇ 엑셀 파일을 업로드 또는 드래그 (.xlsx)</p>",
+    unsafe_allow_html=True
+)
+
+# 파일 업로드
+uploaded_file = st.file_uploader("", type=["xlsx"])
 
 if uploaded_file:
     try:
