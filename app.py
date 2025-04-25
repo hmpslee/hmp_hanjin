@@ -3,14 +3,16 @@ import pandas as pd
 from io import BytesIO
 import streamlit.components.v1 as components
 
+# 🔁 앱 초기화 함수
+def reset_app():
+    st.session_state.clear()
+    st.experimental_rerun()
+
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown("Creator by hmp_slee")
 
-# 초기화 버튼
-st.button("🔄 다시 시작하기", on_click=lambda: (st.session_state.clear(), st.experimental_rerun()))
-
-#업로드
+# 업로드
 uploaded_file = st.file_uploader("엑셀 파일을 업로드 해주세요 (.xlsx)", type=["xlsx"])
 
 if uploaded_file:
@@ -85,21 +87,26 @@ if uploaded_file:
             </button>
             """
 
-            st.components.v1.html(copy_script, height=80)
+            components.html(copy_script, height=80)
 
-            # 엑셀 다운로드
-            def to_excel(dataframe):
-                output = BytesIO()
-                with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-                    dataframe.to_excel(writer, index=False, sheet_name='결과')
-                return output.getvalue()
+            # 📥 엑셀 다운로드 + 🔄 다시 시작 버튼 나란히
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                def to_excel(dataframe):
+                    output = BytesIO()
+                    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+                        dataframe.to_excel(writer, index=False, sheet_name='결과')
+                    return output.getvalue()
 
-            st.download_button(
-                label="📥 엑셀 다운로드",
-                data=to_excel(result_df),
-                file_name="hanjin_운송장_가공결과.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+                st.download_button(
+                    label="📥 엑셀 다운로드",
+                    data=to_excel(result_df),
+                    file_name="hanjin_운송장_가공결과.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+
+            with col2:
+                st.button("🔄 다시 시작하기", on_click=reset_app)
 
         else:
             st.error(f"❌ 엑셀 파일에 필요한 열이 없습니다. 다음 컬럼이 필요합니다: {', '.join(required_columns)}")
