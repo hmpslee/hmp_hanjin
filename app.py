@@ -7,6 +7,10 @@ import streamlit.components.v1 as components
 st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown("Creator by hmp_slee")
 
+# 초기화 버튼
+st.button("🔄 다시 시작하기", on_click=lambda: (st.session_state.clear(), st.experimental_rerun()))
+
+#업로드
 uploaded_file = st.file_uploader("엑셀 파일을 업로드 해주세요 (.xlsx)", type=["xlsx"])
 
 if uploaded_file:
