@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from io import BytesIO
+import streamlit.components.v1 as components
 
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
