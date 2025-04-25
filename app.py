@@ -4,9 +4,9 @@ from io import BytesIO
 import streamlit.components.v1 as components
 
 # 🔁 앱 초기화 함수
-def reset_app():
-    st.session_state.clear()
-    st.rerun()
+#def reset_app():
+    #st.session_state.clear()
+    #st.rerun()
 
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
@@ -105,8 +105,8 @@ if uploaded_file:
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
 
-            with col2:
-                st.button("🔄 다시 시작하기", on_click=reset_app)
+            #with col2:
+                #st.button("🔄 다시 시작하기", on_click=reset_app)
 
         else:
             st.error(f"❌ 엑셀 파일에 필요한 열이 없습니다. 다음 컬럼이 필요합니다: {', '.join(required_columns)}")
