@@ -6,7 +6,7 @@ import streamlit.components.v1 as components
 # 🔁 앱 초기화 함수
 def reset_app():
     st.session_state.clear()
-    st.experimental_rerun()
+    st.rerun()
 
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
