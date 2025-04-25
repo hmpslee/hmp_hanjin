@@ -11,18 +11,19 @@ import streamlit.components.v1 as components
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
 st.markdown("""
-<div style='
-    text-align: center;
-    font-size: 0.9rem;
-    padding: 6px 12px;
-    border: 1px solid #444;
-    border-radius: 6px;
-    display: inline-block;
-    background-color: #111;
-    color: #ccc;
-    margin-bottom: 10px;
-'>
-  Creator by hmp_slee
+<div style='text-align: center;'>
+  <div style='
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      display: inline-block;
+      background-color: #111;
+      color: #ccc;
+      margin-bottom: 10px;
+  '>
+    Creator by hmp_slee
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
