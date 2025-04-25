@@ -10,7 +10,10 @@ import streamlit.components.v1 as components
 
 # 제목
 st.title("📦 택배사 운송장 변환기 - HANJIN")
-st.markdown("Creator by hmp_slee")
+st.markdown(
+    "<p style='text-align: center; font-size: 0.9rem;'>Creator by hmp_slee</p>",
+    unsafe_allow_html=True
+)
 
 # 안내문구
 st.markdown(
